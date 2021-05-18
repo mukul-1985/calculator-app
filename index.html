@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="/dist/style.css">
+  
+  <title>Frontend Mentor | Calculator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <nav class="flex flex-jc-sb flex-ai-c">
+        <h3>calc</h3>
+        <div class="header__theme">
+          <ul class="flex flex-jc-sb">
+            <li><h6>1</h6></li>
+            <li><h6>2</h6></li>
+            <li><h6>3</h6></li>
+          </ul>
+          <input class="header__theme__toggle" type="range" min="1" max="3" value="1" onchange="changeTheme(this.value)">
+        </div>
+      </nav>
+    </header>
+    <div class="screen flex flex-ai-c">
+      <h1 id="display">0</h1>
+    </div>
+    <div class="keypad">
+      <button class="keypad__numbers" value="7" onclick="calcNumbers(this.value)">7</button>
+      <button class="keypad__numbers" value="8" onclick="calcNumbers(this.value)">8</button>
+      <button class="keypad__numbers" value="9" onclick="calcNumbers(this.value)">9</button>
+      <button class="keypad__del" onclick="calcDelete()">DEL</button>
+      <button class="keypad__numbers" value="4" onclick="calcNumbers(this.value)">4</button>
+      <button class="keypad__numbers" value="5" onclick="calcNumbers(this.value)">5</button>
+      <button class="keypad__numbers" value="6" onclick="calcNumbers(this.value)">6</button>
+      <button class="keypad__numbers" onclick="ops('+')">+</button>
+      <button class="keypad__numbers" value="1" onclick="calcNumbers(this.value)">1</button>
+      <button class="keypad__numbers" value="2" onclick="calcNumbers(this.value)">2</button>
+      <button class="keypad__numbers" value="3" onclick="calcNumbers(this.value)">3</button>
+      <button class="keypad__numbers" onclick="ops('-')">-</button>
+      <button class="keypad__numbers" value="." onclick="calcNumbers(this.value)">.</button>
+      <button class="keypad__numbers" value="0" onclick="calcNumbers(this.value)">0</button>
+      <button class="keypad__numbers" onclick="ops('/')">/</button>
+      <button class="keypad__numbers" onclick="ops('*')">x</button>
+      <button class="keypad__reset" onclick="calcReset()">RESET</button>
+      <button class="keypad__equal" onclick="done()">=</button>
+    </div>
+  </div>
+  
+  <!--
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div>-->
+  <script src="/app/js/script.js"></script>
+</body>
+</html>
