@@ -54,6 +54,7 @@ function calculate(event) {
   } else if (event.target.className === 'keypad__del') {
     display.textContent = display.textContent.substr(0, display.textContent.length - 1)
     display.textContent = display.textContent === '' ? 0 : display.textContent
+    operand2 = isSecondOperand ? display.textContent : 0
   } else {
     display.textContent = display.textContent === '0' || isSecondOperand ? clickedButton : display.textContent + clickedButton
     if (!isSecondOperand)
