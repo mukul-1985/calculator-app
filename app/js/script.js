@@ -1,79 +1,67 @@
 let theme = localStorage.getItem('theme')
-let themeMap = new Map()
-themeMap.set('theme-1', '1')
-themeMap.set('theme-2', '2')
-themeMap.set('theme-3', '3')
 
 if (theme) {
   document.documentElement.setAttribute('data-theme', theme)
-  document.querySelector('input[type="range"]').value = themeMap.get(theme)
+  document.querySelector(`input[type="radio"][value="${theme}"]`).checked = true
 } else {
   document.documentElement.setAttribute('data-theme', 'theme-1')
   localStorage.setItem('theme', 'theme-1')
+  document.querySelector('input[type="radio"][value="theme-1"]').checked = true
 }
 
 function changeTheme(theme) {
-  if (theme === '1') {
-    document.documentElement.setAttribute('data-theme', 'theme-1')
-    localStorage.setItem('theme', 'theme-1')
-  } else if (theme === '2') {
-    document.documentElement.setAttribute('data-theme', 'theme-2')
-    localStorage.setItem('theme', 'theme-2')
-  } else if (theme === '3') {
-    document.documentElement.setAttribute('data-theme', 'theme-3')
-    localStorage.setItem('theme', 'theme-3')
-  }
+  document.documentElement.setAttribute('data-theme', theme)
+  localStorage.setItem('theme', theme)
 }
 
+const buttons = document.querySelectorAll('button')
+const display = document.getElementById('display')
+let operator = ''
 let result = 0
-let display = 0
-let dc = document.getElementById('display')
-let operation = ''
+let operand = 0
+let operand2 = 0
+let isSecondOperand = false
 
-function calcNumbers(num) {
-  if (dc.innerHTML === '0') {
-    display = num
+buttons.forEach((button) => {
+  button.addEventListener('click', calculate)
+})
+
+function calculate(event) {
+  const clickedButton = event.target.value
+
+  if (clickedButton === '=') {
+    result = calc()
+    operand = result
+    display.textContent = result
+    isSecondOperand = false
+  } else if (['+','-','*','/'].includes(clickedButton)) {
+    operator = clickedButton
+    if (!isSecondOperand) {
+      isSecondOperand = true
+      operand2 = 0
+    } else if (!(operand2 === '0')) {
+      operand = calc()
+      isSecondOperand = true
+      operand2 = 0
+    }
+  } else if (event.target.className === 'keypad__reset') {
+    operator = ''
+    result = 0
+    operand = 0
+    operand2 = 0
+    display.textContent = 0
+    isSecondOperand = false
+  } else if (event.target.className === 'keypad__del') {
+    display.textContent = display.textContent.substr(0, display.textContent.length - 1)
+    display.textContent = display.textContent === '' ? 0 : display.textContent
   } else {
-    display += num
+    display.textContent = display.textContent === '0' || isSecondOperand ? clickedButton : display.textContent + clickedButton
+    if (!isSecondOperand)
+    operand = display.textContent
+    else operand2 = display.textContent
   }
-  
-  dc.innerHTML = display
 }
 
-function ops(ops) {
-  switch(operation) {
-    case '+':
-      result = Number(result) + Number(display)
-      break
-    case '-':
-      result = Number(result) - Number(display)
-      break
-    case '/':
-      result = Number(result) / Number(display)
-      break
-    case '*':
-      result = Number(result) * Number(display)
-      break
-    default:
-      result = Number(display)
-  }
-  operation = ops
-  dc.innerHTML = 0
-}
-
-function calcDelete() {
-  display = display.substr(0, display.length - 1);
-  dc.innerHTML = display === '' ? 0 : display
-}
-
-function calcReset() {
-  result = 0
-  display = 0
-  dc.innerHTML = 0
-  operation = ''
-}
-
-function done() {
-  ops(operation)
-  dc.innerHTML = result
+function calc() {
+  return eval(`${operand}${operator}${operand2}`)
 }
